@@ -1,0 +1,279 @@
+<!-- <!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý sách - Thư viện DUE</title>
+    <link rel="stylesheet" href="quan_ly_sach.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="logo">
+                <div class="logo-box">DUE</div>
+                <h2>Thư viện DUE</h2>
+            </div>
+            <nav>
+                <ul>
+                    <li><i class="fa-solid fa-table-columns"></i> Tổng quan</li>
+                    <li><i class="fa-solid fa-book-open"></i> Mượn sách</li>
+                    <li><i class="fa-solid fa-rotate-left"></i> Trả sách</li>
+                    <li class="active"><i class="fa-solid fa-book"></i> Quản lý sách</li>
+                    <li><i class="fa-solid fa-users"></i> Người dùng</li>
+                    <li><i class="fa-solid fa-chart-line"></i> Báo cáo</li>
+                </ul>
+            </nav>
+            <div class="logout"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</div>
+        </aside>
+
+        <main class="main-content">
+            <header>
+                <div class="header-left">
+                    <h1>Quản lý sách</h1>
+                    <p>Đại học Kinh tế - Đại học Đà Nẵng</p>
+                </div>
+                <div class="header-right">
+                    <div class="user-info"><strong>Nguyễn Văn An</strong><span>Thủ thư</span></div>
+                    <div class="avatar">N</div>
+                </div>
+            </header>
+
+            <section class="search-section">
+                <h3>Tìm kiếm sách</h3>
+                <div class="search-bar">
+                    <div class="input-group">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="searchInput" placeholder="Nhập từ khóa tìm kiếm..."
+                            onkeyup="searchBook()">
+                    </div>
+                    <button class="btn-orange">Tìm kiếm</button>
+                    <button class="btn-blue" onclick="openAddModal()"><i class="fa-solid fa-plus"></i> Thêm sách
+                        mới</button>
+                </div>
+            </section>
+
+            <section class="table-section">
+                <h3>Danh sách sách</h3>
+                <p id="bookCount">Hiển thị 6 quyển sách</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Mã sách</th>
+                            <th>Tên sách</th>
+                            <th>Tác giả</th>
+                            <th>Thể loại</th>
+                            <th>NXB</th>
+                            <th>Năm XB</th>
+                            <th>Số lượng</th>
+                            <th>Trạng thái</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bookTableBody"></tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+
+    <div id="bookModal" class="modal">
+        <div class="modal-content form-box">
+            <h2 id="modalTitle">Thêm sách mới</h2>
+            <form id="bookForm">
+                <input type="hidden" id="editIndex" value="-1">
+                <div class="form-group"><label>Mã sách</label><input type="text" id="bookId" required></div>
+                <div class="form-group"><label>Tên sách</label><input type="text" id="bookTitle" required></div>
+                <div class="form-group"><label>Tác giả</label><input type="text" id="bookAuthor" required></div>
+                <div class="form-row">
+                    <div class="form-group"><label>Thể loại</label><input type="text" id="bookType"></div>
+                    <div class="form-group"><label>NXB</label><input type="text" id="bookPublisher"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label>Năm XB</label><input type="number" id="bookYear"></div>
+                    <div class="form-group"><label>Số lượng</label><input type="text" id="bookQty"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn-save">Lưu thông tin</button>
+                    <button type="button" class="btn-cancel" onclick="handleCancelClick()">Hủy</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="cancelConfirmModal" class="modal sub-modal">
+        <div class="modal-content confirm-box">
+            <h3 id="cancelTitle">Bạn chưa thêm mới sách, xác nhận hủy?</h3>
+            <p>Hành động này sẽ xóa các thông tin sách đã nhập</p>
+            <div class="confirm-buttons">
+                <button class="btn-white" onclick="closeSubModal('cancelConfirmModal')">Hủy</button>
+                <button class="btn-orange-confirm" onclick="confirmCancel()">Đồng ý</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="deleteConfirmModal" class="modal sub-modal">
+        <div class="modal-content confirm-box">
+            <h3>Bạn có chắc chắn muốn xóa?</h3>
+            <p>Hành động này sẽ xóa sách khỏi hệ thống.</p>
+            <p class="warning-text">Lưu ý: Sách đã có lịch sử mượn, sẽ được chuyển sang trạng thái “Ngừng sử dụng” thay
+                vì xóa hoàn toàn</p>
+            <div class="confirm-buttons vertical">
+                <button class="btn-orange-confirm" onclick="confirmDelete()">Đồng ý</button>
+                <button class="btn-white" onclick="closeSubModal('deleteConfirmModal')">Hủy</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toastContainer"></div>
+    <script src="quan_ly_sach.js"></script>
+</body>
+
+</html> -->
+
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý sách - Thư viện DUE</title>
+    <link rel="stylesheet" href="quan_ly_sach.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="logo">
+                <div class="logo-box">DUE</div>
+                <h2>Thư viện DUE</h2>
+            </div>
+            <nav>
+                <ul>
+                    <li><i class="fa-solid fa-table-columns"></i> Tổng quan</li>
+                    <li><i class="fa-solid fa-book-open"></i> Mượn sách</li>
+                    <li><i class="fa-solid fa-rotate-left"></i> Trả sách</li>
+                    <li class="active"><i class="fa-solid fa-book"></i> Quản lý sách</li>
+                    <li><i class="fa-solid fa-users"></i> Người dùng</li>
+                    <li><i class="fa-solid fa-chart-line"></i> Báo cáo</li>
+                </ul>
+            </nav>
+            <div class="logout"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</div>
+        </aside>
+
+        <main class="main-content">
+            <header>
+                <div class="header-left">
+                    <h1>Quản lý sách</h1>
+                    <p>Đại học Kinh tế - Đại học Đà Nẵng</p>
+                </div>
+                <div class="header-right">
+                    <div class="user-info"><strong>Nguyễn Văn An</strong><span>Thủ thư</span></div>
+                    <div class="avatar">N</div>
+                </div>
+            </header>
+
+            <section class="search-section">
+                <h3>Tìm kiếm sách</h3>
+                <div class="search-bar">
+                    <div class="input-group">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="searchInput" placeholder="Nhập từ khóa tìm kiếm..."
+                            onkeyup="searchBook()">
+                    </div>
+                    <button class="btn-orange">Tìm kiếm</button>
+                    <button class="btn-blue" onclick="openAddModal()"><i class="fa-solid fa-plus"></i> Thêm sách
+                        mới</button>
+                </div>
+            </section>
+
+            <section class="table-section">
+                <h3>Danh sách sách</h3>
+                <p id="bookCount">Hiển thị 6 quyển sách</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Mã sách</th>
+                            <th>Tên sách</th>
+                            <th>Tác giả</th>
+                            <th>Thể loại</th>
+                            <th>NXB</th>
+                            <th>Năm XB</th>
+                            <th>Số lượng</th>
+                            <th>Trạng thái</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="bookTableBody"></tbody>
+                </table>
+            </section>
+        </main>
+    </div>
+
+    <div id="bookModal" class="modal">
+        <div class="modal-content form-box">
+            <h2 id="modalTitle">Thêm sách mới</h2>
+            <form id="bookForm">
+                <input type="hidden" id="editIndex" value="-1">
+                <div class="form-group"><label>Mã sách</label><input type="text" id="bookId" required></div>
+                <div class="form-group"><label>Tên sách</label><input type="text" id="bookTitle" required></div>
+                <div class="form-group"><label>Tác giả</label><input type="text" id="bookAuthor" required></div>
+                <div class="form-row">
+                    <div class="form-group"><label>Thể loại</label><input type="text" id="bookType"></div>
+                    <div class="form-group"><label>NXB</label><input type="text" id="bookPublisher"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label>Năm XB</label><input type="number" id="bookYear"></div>
+                    <div class="form-group"><label>Số lượng</label><input type="text" id="bookQty"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn-save">Lưu thông tin</button>
+                    <button type="button" class="btn-cancel" onclick="handleCancelClick()">Hủy</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="detailModal" class="modal">
+        <div class="modal-content confirm-box">
+            <h2>Thông tin chi tiết</h2>
+            <hr style="margin: 15px 0; border: 0; border-top: 1px solid #eee;">
+            <div id="bookDetailContent" style="text-align: left; line-height: 1.8; color: #4A5568;">
+            </div>
+            <div class="modal-footer" style="margin-top: 25px;">
+                <button class="btn-blue" style="width: 100%; justify-content: center;"
+                    onclick="closeSubModal('detailModal')">Đóng</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="cancelConfirmModal" class="modal sub-modal">
+        <div class="modal-content confirm-box">
+            <h3 id="cancelTitle">Xác nhận hủy?</h3>
+            <p>Hành động này sẽ xóa các thông tin sách đã nhập</p>
+            <div class="confirm-buttons">
+                <button class="btn-white" onclick="closeSubModal('cancelConfirmModal')">Hủy</button>
+                <button class="btn-orange-confirm" onclick="confirmCancel()">Đồng ý</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="deleteConfirmModal" class="modal sub-modal">
+        <div class="modal-content confirm-box">
+            <h3>Bạn có chắc chắn muốn xóa?</h3>
+            <p>Hành động này sẽ xóa sách khỏi hệ thống.</p>
+            <p class="warning-text">Lưu ý: Sách đã có lịch sử mượn, sẽ được chuyển sang trạng thái “Ngừng sử dụng”.</p>
+            <div class="confirm-buttons vertical">
+                <button class="btn-orange-confirm" onclick="confirmDelete()">Đồng ý</button>
+                <button class="btn-white" onclick="closeSubModal('deleteConfirmModal')">Hủy</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toastContainer"></div>
+    <script src="quan_ly_sach.js"></script>
+</body>
+
+</html>
