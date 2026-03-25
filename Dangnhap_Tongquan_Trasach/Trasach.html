@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trả sách - Thư viện DUE</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Boxicons -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <!-- CSS dùng lại -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="dashboard-container">
+
+    <!-- SIDEBAR (GIỮ NGUYÊN) -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <span class="logo-text">DUE</span>
+            </div>
+            <h2>Thư viện DUE</h2>
+        </div>
+
+        <ul class="nav-links">
+            <li id="nav-overview">
+                <a href="Tongquan.html"><i class='bx bxs-grid-alt'></i> Tổng quan</a>
+            </li>
+
+            <li>
+                <a href="#"><i class='bx bx-book-reader'></i> Mượn sách</a>
+            </li>
+
+            <li class="active" id="nav-return">
+                <a href="Trasach.html"><i class='bx bx-history'></i> Trả sách</a>
+            </li>
+
+            <li>
+                <a href="/Quan_ly_sach/quanlisach.html"><i class='bx bx-book'></i> Quản lý sách</a>
+            </li>
+
+            <li>
+                <a href="#"><i class='bx bx-group'></i> Người dùng</a>
+            </li>
+
+            <li>
+                <a href="#"><i class='bx bx-line-chart'></i> Báo cáo</a>
+            </li>
+        </ul>
+
+        <div class="logout-wrapper">
+            <a href="#" class="logout-btn"  onclick="goToPage('logout')">
+                <i class='bx bx-log-out'></i> Đăng xuất
+            </a>
+        </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main-content">
+
+        <!-- HEADER -->
+        <header class="header">
+            <div class="header-left">
+                <h1>Trả sách</h1>
+                <p>Đại học Kinh tế - Đại học Đà Nẵng</p>
+            </div>
+
+            <div class="header-right">
+                <div class="user-info">
+                    <div class="user-details">
+                        <span class="user-name">Nguyễn Văn An</span>
+                        <span class="user-role">Thủ thư</span>
+                    </div>
+                    <div class="user-avatar">N</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- PAGE RETURN (GIỮ NGUYÊN 100%) -->
+        <div id="page-return">
+
+            <!-- Search -->
+            <div class="search-section card">
+                <p class="section-label">Tìm kiếm</p>
+                <div class="search-bar">
+                    <div class="input-with-icon">
+                        <i class='bx bx-search'></i>
+                        <input type="text" placeholder="Nhập thông tin để tìm kiếm">
+                    </div>
+                    <button class="btn btn-primary btn-orange">
+                        <i class='bx bx-search'></i> Tìm kiếm
+                    </button>
+                    <button class="btn btn-primary btn-blue">
+                        <i class='bx bx-scan'></i> Scan
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="tabs-container">
+                <div class="tab active" onclick="switchTab(this, 'tab-1')">Xác nhận trả sách</div>
+                <div class="tab" onclick="switchTab(this, 'tab-2')">Thanh toán phí phạt</div>
+                <div class="tab" onclick="switchTab(this, 'tab-3')">Xử lý mất sách</div>
+                <div class="tab" onclick="switchTab(this, 'tab-4')">Xác nhận đền sách</div>
+            </div>
+
+            <!-- Content -->
+            <div class="tab-content card">
+
+                <!-- TAB 1 -->
+                <div id="tab-1" class="tab-pane active">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Mã phiếu</th>
+                                <th>Mã sách trong kho</th>
+                                <th>Tên sách</th>
+                                <th>Người mượn</th>
+                                <th>Ngày mượn</th>
+                                <th>Hạn trả</th>
+                                <th>Trạng thái</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>KT001</td>
+                                <td>Kinh tế vi mô</td>
+                                <td>Trần Thị Bình</td>
+                                <td>10/1/2026</td>
+                                <td>24/1/2026</td>
+                                <td><span class="badge badge-blue">Đang mượn</span></td>
+                                <td><span class="badge badge-red-btn">Xác nhận trả</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- TAB 2 -->
+                <div id="tab-2" class="tab-pane hidden">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Mã phạt</th>
+                                <th>Người dùng</th>
+                                <th>Mã người dùng</th>
+                                <th>Tổng tiền</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+
+                <!-- TAB 3 -->
+                <div id="tab-3" class="tab-pane hidden">
+                    <table class="table"></table>
+                </div>
+
+                <!-- TAB 4 -->
+                <div id="tab-4" class="tab-pane hidden">
+                    <table class="table"></table>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>

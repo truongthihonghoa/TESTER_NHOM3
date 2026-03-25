@@ -6,41 +6,92 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản lý sách - Thư viện DUE</title>
-    <link rel="stylesheet" href="quan_ly_sach.css">
+    <link rel="stylesheet" href="quanlisach.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Boxicons -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
     <div class="container">
         <aside class="sidebar">
+        <div class="sidebar-header">
             <div class="logo">
-                <div class="logo-box">DUE</div>
-                <h2>Thư viện DUE</h2>
+                <span class="logo-text">DUE</span>
             </div>
-            <nav>
-                <ul>
-                    <li><i class="fa-solid fa-table-columns"></i> Tổng quan</li>
-                    <li><i class="fa-solid fa-book-open"></i> Mượn sách</li>
-                    <li><i class="fa-solid fa-rotate-left"></i> Trả sách</li>
-                    <li class="active"><i class="fa-solid fa-book"></i> Quản lý sách</li>
-                    <li><i class="fa-solid fa-users"></i> Người dùng</li>
-                    <li><i class="fa-solid fa-chart-line"></i> Báo cáo</li>
-                </ul>
-            </nav>
-            <div class="logout"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</div>
-        </aside>
+            <h2>Thư viện DUE</h2>
+        </div>
 
-        <main class="main-content">
-            <header>
-                <div class="header-left">
-                    <h1>Quản lý sách</h1>
-                    <p>Đại học Kinh tế - Đại học Đà Nẵng</p>
+        <ul class="nav-links">
+            <li class="active" id="nav-overview">
+                <a href="#" onclick="goToPage('overview')">
+                    <i class='bx bxs-grid-alt'></i> Tổng quan
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    <i class='bx bx-book-reader'></i> Mượn sách
+                </a>
+            </li>
+
+            <li id="nav-return">
+                <a href="#" onclick="goToPage('return')">
+                    <i class='bx bx-history'></i> Trả sách
+                </a>
+            </li>
+
+            <li class='nav-sach'>
+                <a href="#" onclick="goToPage('manage-books')">
+                    <i class='bx bx-book'></i> Quản lý sách
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    <i class='bx bx-group'></i> Người dùng
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    <i class='bx bx-line-chart'></i> Báo cáo
+                </a>
+            </li>
+        </ul>
+
+        <div class="logout-wrapper">
+            <a href="#" class="logout-btn"  onclick="goToPage('logout')">
+                <i class='bx bx-log-out'></i> Đăng xuất
+            </a>
+        </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main-content">
+
+        <!-- HEADER -->
+        <header class="header">
+            <div class="header-left">
+                <h1 id="pageTitle">Tổng quan</h1>
+                <p>Đại học Kinh tế - Đại học Đà Nẵng</p>
+            </div>
+
+            <div class="header-right">
+                <div class="user-info">
+                    <div class="user-details">
+                        <span class="user-name">Nguyễn Văn An</span>
+                        <span class="user-role">Thủ thư</span>
+                    </div>
+                    <div class="user-avatar">N</div>
                 </div>
-                <div class="header-right">
-                    <div class="user-info"><strong>Nguyễn Văn An</strong><span>Thủ thư</span></div>
-                    <div class="avatar">N</div>
-                </div>
-            </header>
+            </div>
+        </header>
 
             <section class="search-section">
                 <h3>Tìm kiếm sách</h3>
@@ -140,7 +191,7 @@
     </div>
 
     <div id="toastContainer"></div>
-    <script src="quan_ly_sach.js"></script>
+    <script src="quanlisach.js"></script>
 </body>
 
 </html>

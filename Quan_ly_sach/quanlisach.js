@@ -191,3 +191,23 @@ window.onclick = (e) => {
 document.addEventListener("DOMContentLoaded", () => {
     renderBooks();
 });
+
+function goToPage(page) {
+    switch(page) {
+        case 'logout':
+            window.location.href = '/Dangnhap_Tongquan_Trasach/Dangnhap.html';
+            break;
+
+        case 'overview':
+            window.location.href = '/Dangnhap_Tongquan_Trasach/Tongquan.html';
+            break;
+
+        case 'return':
+            window.location.href = '/Dangnhap_Tongquan_Trasach/Trasach.html';
+            break;
+
+        case 'manage-books':
+            window.location.href = '../Quan_ly_sach/quanlisach.html';
+            break;
+    }
+}
